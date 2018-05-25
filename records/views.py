@@ -50,9 +50,9 @@ def yellowantRedirecturl(request):
     state = str(uuid.uuid4())
     AppRedirectState.objects.create(user_integration=ut, state=state)
 
-    vo_user_name = "adwaithcd"
+    # vo_user_name = "adwaithcd"
 
-    vut = VictorOpsUserToken.objects.create(user_integration=ut, victorops_user_id=vo_user_name)
+    vut = VictorOpsUserToken.objects.create(user_integration=ut, victorops_user_id=settings.VICTOROPS_USER_ID, victorops_api_id=settings.VICTOROPS_API_ID, victorops_api_key=settings.VICTOROPS_API_KEY)
 
     return HttpResponse("Integrated!")
 

@@ -41,10 +41,12 @@ class CommandCentre(object):
         self.user_integration = YellowUserToken.objects.get(yellowant_integration_id=self.yellowant_integration_id)
         self.victor_ops_object = VictorOpsUserToken.objects.get(user_integration=self.user_integration)
         self.victor_ops_uid = self.victor_ops_object.victorops_user_id
+        self.victor_ops_api_id = self.victor_ops_object.victorops_api_id
+        self.victor_ops_api_key = self.victor_ops_object.victorops_api_key
+
 
         self.headers = {
-            'Content-Type': 'application/json', 'X-VO-Api-Id': '90bf5258', 'X-VO-Api-Key': 'f5fd61c10d269273c06cff705a630a9b'
-        }
+            'Content-Type': 'application/json', 'X-VO-Api-Id': self.victor_ops_api_id, 'X-VO-Api-Key': self.victor_ops_api_key        }
         return self.commands[self.function_name](self.args)
 
     def get_incident(self, args):

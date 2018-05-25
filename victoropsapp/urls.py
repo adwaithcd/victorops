@@ -17,10 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from records.views import redirectToYellowAntAuthenticationPage,yellowantRedirecturl,yellowantapi
-# from web import urls as web_urls
+from web import urls as web_urls
 from django.urls import include,path
 
 urlpatterns = [
+    path('',include(web_urls)),
     url(r'^admin/', admin.site.urls),
     path("create-new-integration/", redirectToYellowAntAuthenticationPage, name="statuspage-auth-redirect"),
     path("redirecturl/", yellowantRedirecturl, name="yellowant-auth-redirect"),
