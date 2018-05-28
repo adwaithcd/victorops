@@ -28,8 +28,9 @@ def yellowantRedirecturl(request):
     print("In yellowantRedirecturl")
     # print('It is here')
     code = request.GET.get('code')
-    # print(code)
+    print(code)
     state = request.GET.get("state")
+    print(state)
     yellowant_redirect_state = YellowAntRedirectState.objects.get(state=state)
     user = yellowant_redirect_state.user
 
@@ -37,7 +38,8 @@ def yellowantRedirecturl(request):
                   redirect_uri=settings.YELLOWANT_REDIRECT_URL)
     # access_token_dict is json structured
     access_token_dict = y.get_access_token(code)
-    access_token = access_token_dict['access_token']
+    print(access_token_dict)
+    access_token = access_token_dict["access_token"]
     yellowant_user = YellowAnt(access_token=access_token)
     profile = yellowant_user.get_user_profile()
     user_integration = yellowant_user.create_user_integration()

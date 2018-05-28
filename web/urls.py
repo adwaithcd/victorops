@@ -7,10 +7,12 @@ from .views import index
 from .views import UserLogin
 
 urlpatterns = [
-    path("", index, name="index"),
+    # path("", index, name="index"),
     path("user/", userdetails, name="home"),
     path("user/<int:id>/", user_detail_update_delete_view, name="home"),
     path("accounts/<int:id>/",user_detail_update_delete_view, name="home" ),
-    path("apikey/", user_detail_update_delete_view, name="home"),
-    path("yellowantredirecturl/register/",UserLogin,name="home")
+    path("apiKey/", user_detail_update_delete_view, name="home"),
+    # path("yellowantredirecturl/register/",UserLogin,name="home"),
+    url(r'^(?P<path>.*)$', index, name="index"),
+
 ]

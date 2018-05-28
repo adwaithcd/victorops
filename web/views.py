@@ -14,7 +14,7 @@ def UserLogin(request):
 #  index function loads the home.html page
 
 
-def index(request):
+def index(request, path):
     print('test')
 
     context = {
@@ -75,10 +75,10 @@ def user_detail_update_delete_view(request, id=None):
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
         print(data)
-        user_id = data['VictorOps_User_ID']
-        api_id = data['VictorOps_API_ID']
-        api_key = data['VictorOps_API_Key']
-        user_integration = data['integration_id']
+        user_id = data['user_id']
+        api_id = data['victorops_api_id']
+        api_key = data['victorops_api_key']
+        user_integration = data['user_integration']
 
         headers = {
             'Content-Type': 'application/json', 'X-VO-Api-Id': api_id,

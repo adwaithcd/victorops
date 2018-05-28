@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-BASE_URL = 'http://9e5ef688.ngrok.io'
+BASE_URL = ' http://9b931c10.ngrok.io'
 
 YELLOWANT_OAUTH_URL = "https://www.yellowant.com/api/oauth2/authorize/"
 YELLOWANT_CLIENT_ID = "DXMu0IhAngKpcqoieGxjzPQEr5FZLKnMODMDj7Rx"
