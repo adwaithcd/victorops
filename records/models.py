@@ -30,4 +30,5 @@ class VictorOpsUserToken(models.Model):
     victorops_user_id = models.TextField(max_length=200)
     victorops_api_id = models.TextField(max_length=200)
     victorops_api_key = models.TextField(max_length=200)
+    apikey_login_update_flag = models.BooleanField(default=False, max_length=100)
 

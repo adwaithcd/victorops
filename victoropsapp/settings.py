@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-BASE_URL = ' http://9b931c10.ngrok.io'
+BASE_URL = 'http://22db9753.ngrok.io'
 
 YELLOWANT_OAUTH_URL = "https://www.yellowant.com/api/oauth2/authorize/"
 YELLOWANT_CLIENT_ID = "DXMu0IhAngKpcqoieGxjzPQEr5FZLKnMODMDj7Rx"
@@ -35,7 +35,7 @@ YELLOWANT_CLIENT_SECRET = "Z1pTXQvSUOrWjMB0qhkpe6Z6CMKSkqKcORQaf6kp01wEtRROAA9qA
 YELLOWANT_VERIFICATION_TOKEN = "9fINDatAr6YL5wX9OvybcLnxQRYoFhRUl2nl6vKE3mcJO302vSvv16olV2vyywwerqTGea1blStxv9XR8nczzMqrEOXKveTGuWrnaMtyIKVUTfkJjwYCXVdutEkVJa92"
 YELLOWANT_REDIRECT_URL = BASE_URL + "/redirecturl/"
 
-VICTOROPS_USER_ID = 'adwaithcd'
+# VICTOROPS_USER_ID = 'adwaithcd'
 VICTOROPS_API_ID = '90bf5258'
 VICTOROPS_API_KEY = 'f5fd61c10d269273c06cff705a630a9b'
 VICTOROPS_INCIDENT_ALERT_URL = 'https://api.victorops.com/api-public/v1/alerts/'

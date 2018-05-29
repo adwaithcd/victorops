@@ -54,9 +54,9 @@ def yellowantRedirecturl(request):
 
     # vo_user_name = "adwaithcd"
 
-    vut = VictorOpsUserToken.objects.create(user_integration=ut, victorops_user_id=settings.VICTOROPS_USER_ID, victorops_api_id=settings.VICTOROPS_API_ID, victorops_api_key=settings.VICTOROPS_API_KEY)
+    vut = VictorOpsUserToken.objects.create(user_integration=ut, victorops_user_id="", victorops_api_id="", victorops_api_key="")
 
-    return HttpResponse("Integrated!")
+    return HttpResponseRedirect("/")
 
 
 @csrf_exempt
@@ -142,12 +142,12 @@ def yellowantapi(request):
         print(data)
         if verification_token == settings.YELLOWANT_VERIFICATION_TOKEN:
             # Processing command in some class Command and sending a Message Object
-            if function_name == 'add_user':
-                message,flag = CommandCentre(data["user"], service_application, function_name, args).parse()
+            if function_name == 'add_user' or function_name == 'create_incident':
+                message, flag = CommandCentre(data["user"], service_application, function_name, args).parse()
             else:
                 message = CommandCentre(data["user"], service_application, function_name, args).parse()
 
-            if function_name == 'create_incident':
+            if function_name == 'create_incident' and flag == 1:
                 add_new_incident(request)
             if function_name == 'add_user' and flag == 1:
                 add_new_user(request)

@@ -4,18 +4,12 @@ from yellowant import YellowAnt
 import json
 from yellowant.messageformat import MessageClass, MessageAttachmentsClass, MessageButtonsClass, AttachmentFieldsClass
 from .models import VictorOpsUserToken, YellowUserToken
-import traceback
-import requests
-import datetime
-import pytz
 from django.conf import settings
-import time
 import victorops_client
 from victorops_client.rest import ApiException
 from pprint import pprint
 import requests
 import re
-import numpy as np
 
 class CommandCentre(object):
     def __init__(self, yellowant_user_id, yellowant_integration_id, function_name, args):
@@ -36,6 +30,7 @@ class CommandCentre(object):
             'resolve_incidents': self.resolve_incidents,
             'ack_all_incidents': self.ack_all_incidents,
             'resolve_all_incidents': self.resolve_all_incidents,
+            'pick_list_users':self.pick_list_users,
         }
 
         self.user_integration = YellowUserToken.objects.get(yellowant_integration_id=self.yellowant_integration_id)
@@ -257,6 +252,18 @@ class CommandCentre(object):
         else:
             return 1
 
+    def pick_list_users(self,args):
+        url = settings.VICTOROPS_ALL_USERS
+        response = requests.get(url, headers=self.headers)
+        response_json = response.json()
+        message = MessageClass()
+        data = response_json['users'][0]
+        name_list = {'users': []}
+        for i in range(len(data)):
+            name_list['users'].append({"username": data[i]['username']})
+        print(name_list)
+        message.data = name_list
+        return message.to_json
 
     def list_users(self, args):
         url = settings.VICTOROPS_ALL_USERS
@@ -265,7 +272,7 @@ class CommandCentre(object):
         print(response_json)
         message = MessageClass()
         message.message_text = "Users"
-        if bool(response_json) == False:
+        if not bool(response_json):
             attachment = MessageAttachmentsClass()
             attachment.text = "No users!"
             message.attach(attachment)
@@ -315,7 +322,8 @@ class CommandCentre(object):
             attachment = MessageAttachmentsClass()
             attachment.text = "User not found!"
             message.attach(attachment)
-            return message.to_json()
+            flag = 0
+            return message.to_json(),flag
         else:
             body = {
                 "summary": args['Incident-Summary'],
@@ -330,6 +338,7 @@ class CommandCentre(object):
             }
             r = requests.post(url, headers=self.headers, data=json.dumps(body))
             print(r)
+            r_text = r.text
             message = MessageClass()
             attachment = MessageAttachmentsClass()
             attachment.text = "Incident created "
@@ -350,7 +359,8 @@ class CommandCentre(object):
             attachment.attach_field(field3)
 
             message.attach(attachment)
-            return message.to_json()
+            flag = 1
+            return message.to_json(), flag
 
     def add_user(self,args):
         message = MessageClass()

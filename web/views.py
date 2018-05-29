@@ -43,7 +43,7 @@ def userdetails(request):
             try:
                 vout = VictorOpsUserToken.objects.get(user_integration=user_integration)
                 print(vout)
-                user_integrations_list.append({"user_invoke_name":user_integration.yellowant_integration_invoke_name, "id":user_integration.id, "app_authenticated":True})
+                user_integrations_list.append({"user_invoke_name":user_integration.yellowant_integration_invoke_name, "id":user_integration.id, "app_authenticated":True,"is_valid":vout.apikey_login_update_flag})
             except VictorOpsUserToken.DoesNotExist:
                 user_integrations_list.append({"user_invoke_name":user_integration.yellowant_integration_invoke_name, "id":user_integration.id, "app_authenticated":False})
     return HttpResponse(json.dumps(user_integrations_list), content_type="application/json")
@@ -52,12 +52,15 @@ def userdetails(request):
 
 
 def user_detail_update_delete_view(request, id=None):
-    print("In user_detail_update_delete_view")
-    print(id)
-
+    # print("In user_detail_update_delete_view")
+    # print(id)
+    user_integration_id = id
     if request.method == "GET":
         # return user data
-        return HttpResponse("successResponse", status=204)
+        vout = VictorOpsUserToken.objects.get(user_integration=user_integration_id)
+        return HttpResponse(json.dumps({
+            "is_valid": vout.apikey_login_update_flag
+        }))
 
     elif request.method == "DELETE":
         access_token_dict = YellowUserToken.objects.get(id=id)
@@ -82,10 +85,16 @@ def user_detail_update_delete_view(request, id=None):
 
         headers = {
             'Content-Type': 'application/json', 'X-VO-Api-Id': api_id,
-            'X-VO-Api-Key': api_key }
+            'X-VO-Api-Key': api_key}
 
         url = 'https://api.victorops.com/api-public/v1/user'
-        response = requests.get(url,headers = headers)
+        response = requests.get(url,headers=headers)
+        response_json = response.json()
+        data = response_json['users'][0]
+        response.status_code = 401
+        for i in range(len(data)):
+            if data[i]['username'] == user_id:
+                response.status_code = 200
 
         if response.status_code == 200:
             print("Valid")
@@ -93,10 +102,12 @@ def user_detail_update_delete_view(request, id=None):
             api_new.victorops_user_id = user_id
             api_new.victorops_api_id = api_id
             api_new.victorops_api_key = api_key
+            api_new.apikey_login_update_flag = True
             api_new.save()
             print(api_new.victorops_api_id)
             print(api_new.victorops_api_key)
             return HttpResponse("Submitted",status=200)
         else:
             print("Invalid")
-            return HttpResponse("Invalid credentials",status=401)
+            return HttpResponse("Invalid Credentials",status=401)
+
