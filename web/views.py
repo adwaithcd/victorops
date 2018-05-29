@@ -1,15 +1,15 @@
+import json
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 from yellowant import YellowAnt
-from records.models import YellowUserToken, VictorOpsUserToken,YellowAntRedirectState
-import json
+from records.models import YellowUserToken, VictorOpsUserToken
 
 
 #   Sample login view
 
-def UserLogin(request):
-    return render(request,"login.html")
+def user_login(request):
+    return render(request, "login.html")
 
 #  index function loads the home.html page
 
@@ -25,7 +25,6 @@ def index(request, path):
         print(user_integrations)
         for user_integration in user_integrations:
             context["user_integrations"].append(user_integration)
-
         return render(request, "home.html", context)
     else:
         return HttpResponse("Please login!")
@@ -43,9 +42,12 @@ def userdetails(request):
             try:
                 vout = VictorOpsUserToken.objects.get(user_integration=user_integration)
                 print(vout)
-                user_integrations_list.append({"user_invoke_name":user_integration.yellowant_integration_invoke_name, "id":user_integration.id, "app_authenticated":True,"is_valid":vout.apikey_login_update_flag})
+                user_integrations_list.append({"user_invoke_name": user_integration.yellowant_integration_invoke_name,
+                                               "id": user_integration.id, "app_authenticated": True,
+                                               "is_valid": vout.apikey_login_update_flag})
             except VictorOpsUserToken.DoesNotExist:
-                user_integrations_list.append({"user_invoke_name":user_integration.yellowant_integration_invoke_name, "id":user_integration.id, "app_authenticated":False})
+                user_integrations_list.append({"user_invoke_name": user_integration.yellowant_integration_invoke_name,
+                                               "id": user_integration.id, "app_authenticated": False})
     return HttpResponse(json.dumps(user_integrations_list), content_type="application/json")
 
 #   delete_integration function deletes the particular integration
@@ -88,7 +90,7 @@ def user_detail_update_delete_view(request, id=None):
             'X-VO-Api-Key': api_key}
 
         url = 'https://api.victorops.com/api-public/v1/user'
-        response = requests.get(url,headers=headers)
+        response = requests.get(url, headers=headers)
         response_json = response.json()
         data = response_json['users'][0]
         response.status_code = 401
@@ -106,8 +108,7 @@ def user_detail_update_delete_view(request, id=None):
             api_new.save()
             print(api_new.victorops_api_id)
             print(api_new.victorops_api_key)
-            return HttpResponse("Submitted",status=200)
+            return HttpResponse("Submitted", status=200)
         else:
             print("Invalid")
-            return HttpResponse("Invalid Credentials",status=401)
-
+            return HttpResponse("Invalid Credentials", status=401)

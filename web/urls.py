@@ -1,10 +1,9 @@
 from django.conf.urls import url
 from django.urls import path
-from web.views import UserLogin
 from .views import userdetails
 from .views import user_detail_update_delete_view
 from .views import index
-from .views import UserLogin
+# from .views import user_login
 
 urlpatterns = [
     # path("", index, name="index"),
