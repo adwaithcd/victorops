@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d30f1c3-2c49-4a19-9ca6-8496c6c3fdae" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/adwaith.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/adwaith.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/records/admin.py" afterPath="$PROJECT_DIR$/records/admin.py" />
       <change beforePath="$PROJECT_DIR$/records/commandcentre.py" afterPath="$PROJECT_DIR$/records/commandcentre.py" />
-      <change beforePath="$PROJECT_DIR$/records/models.py" afterPath="$PROJECT_DIR$/records/models.py" />
-      <change beforePath="$PROJECT_DIR$/records/tests.py" afterPath="$PROJECT_DIR$/records/tests.py" />
-      <change beforePath="$PROJECT_DIR$/records/views.py" afterPath="$PROJECT_DIR$/records/views.py" />
-      <change beforePath="$PROJECT_DIR$/victoropsapp/settings.py" afterPath="$PROJECT_DIR$/victoropsapp/settings.py" />
-      <change beforePath="$PROJECT_DIR$/victoropsapp/urls.py" afterPath="$PROJECT_DIR$/victoropsapp/urls.py" />
-      <change beforePath="$PROJECT_DIR$/web/urls.py" afterPath="$PROJECT_DIR$/web/urls.py" />
-      <change beforePath="$PROJECT_DIR$/web/views.py" afterPath="$PROJECT_DIR$/web/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,8 +38,8 @@
       <file leaf-file-name="commandcentre.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/records/commandcentre.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3937">
-              <caret line="307" column="22" lean-forward="false" selection-start-line="307" selection-start-column="22" selection-end-line="307" selection-end-column="22" />
+            <state relative-caret-position="378">
+              <caret line="21" column="4" lean-forward="false" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
               <folding>
                 <element signature="e#251#288#0" expanded="true" />
               </folding>
@@ -771,8 +761,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/records/commandcentre.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3937">
-          <caret line="307" column="22" lean-forward="false" selection-start-line="307" selection-start-column="22" selection-end-line="307" selection-end-column="22" />
+        <state relative-caret-position="378">
+          <caret line="21" column="4" lean-forward="false" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
           <folding>
             <element signature="e#251#288#0" expanded="true" />
           </folding>

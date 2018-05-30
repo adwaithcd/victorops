@@ -17,6 +17,10 @@ from victorops_client.rest import ApiException
 from .models import VictorOpsUserToken, YellowUserToken
 
 
+# The installation documentation for VictorOps API's python package can be found at
+# https://github.com/honestbee/python-victorops/tree/master/python-client
+    
+
 class CommandCentre(object):
     """ Handles user commands
         Args:
