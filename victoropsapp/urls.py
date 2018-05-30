@@ -15,16 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
-from records.views import redirectToYellowAntAuthenticationPage,yellowantRedirecturl,yellowantapi
+from django.urls import include, path
+from records.views import redirectToYellowAntAuthenticationPage, yellowantRedirecturl, yellowantapi
 from web import urls as web_urls
-from django.urls import include,path
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path("create-new-integration/", redirectToYellowAntAuthenticationPage, name="statuspage-auth-redirect"),
+    path("create-new-integration/", redirectToYellowAntAuthenticationPage,
+         name="victorops-auth-redirect"),
     path("redirecturl/", yellowantRedirecturl, name="yellowant-auth-redirect"),
     path("yellowantauthurl/", redirectToYellowAntAuthenticationPage, name="yellowant-auth-url"),
     path("yellowant-api/", yellowantapi, name="yellowant-api"),
-    path('',include(web_urls)),
+    path('', include(web_urls)),
 ]

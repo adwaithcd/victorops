@@ -1,3 +1,7 @@
+"""
+Functions corresponding to URL patterns of web app
+
+"""
 import json
 import requests
 from django.http import HttpResponse
@@ -6,20 +10,22 @@ from yellowant import YellowAnt
 from records.models import YellowUserToken, VictorOpsUserToken
 
 
-#   Sample login view
-
 def user_login(request):
+    """Sample Login Page"""
     return render(request, "login.html")
-
-#  index function loads the home.html page
 
 
 def index(request, path):
-    print('test')
+    """
+        Loads the homepage of the app.
+        index function loads the home.html page
+    """
+    # print('test')
 
     context = {
         "user_integrations": []
     }
+    # Check if user is authenticated otherwise redirect user to login page
     if request.user.is_authenticated:
         user_integrations = YellowUserToken.objects.filter(user=request.user)
         print(user_integrations)
@@ -29,12 +35,14 @@ def index(request, path):
     else:
         return HttpResponse("Please login!")
 
-#   userdetails function shows the vital integration details of the user
-
 
 def userdetails(request):
-    print("in userdetails")
+    """
+        userdetails function shows the vital integration details of the user
+    """
+    # print("in userdetails")
     user_integrations_list = []
+    # Returns the integration id,user_invoke_name for an integration
     if request.user.is_authenticated:
         user_integrations = YellowUserToken.objects.filter(user=request.user)
         print(user_integrations)
@@ -42,18 +50,22 @@ def userdetails(request):
             try:
                 vout = VictorOpsUserToken.objects.get(user_integration=user_integration)
                 print(vout)
-                user_integrations_list.append({"user_invoke_name": user_integration.yellowant_integration_invoke_name,
+                user_integrations_list.append({"user_invoke_name": user_integration.\
+                                              yellowant_integration_invoke_name,
                                                "id": user_integration.id, "app_authenticated": True,
                                                "is_valid": vout.apikey_login_update_flag})
             except VictorOpsUserToken.DoesNotExist:
-                user_integrations_list.append({"user_invoke_name": user_integration.yellowant_integration_invoke_name,
-                                               "id": user_integration.id, "app_authenticated": False})
+                user_integrations_list.append({"user_invoke_name": user_integration.\
+                                              yellowant_integration_invoke_name,
+                                               "id": user_integration.id,
+                                               "app_authenticated": False})
     return HttpResponse(json.dumps(user_integrations_list), content_type="application/json")
-
-#   delete_integration function deletes the particular integration
 
 
 def user_detail_update_delete_view(request, id=None):
+    """
+        This function handles the updating, deleting and viewing user details
+    """
     # print("In user_detail_update_delete_view")
     # print(id)
     user_integration_id = id
@@ -65,6 +77,7 @@ def user_detail_update_delete_view(request, id=None):
         }))
 
     elif request.method == "DELETE":
+        # deletes the integration
         access_token_dict = YellowUserToken.objects.get(id=id)
         access_token = access_token_dict.yellowant_token
         print(access_token)
@@ -78,6 +91,7 @@ def user_detail_update_delete_view(request, id=None):
         print(response_json)
         return HttpResponse("successResponse", status=204)
     elif request.method == "PUT":
+        # adds a new integration
         data = json.loads(request.body.decode("utf-8"))
         print(data)
         user_id = data['user_id']
