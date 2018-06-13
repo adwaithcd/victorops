@@ -27,17 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-BASE_URL = 'http://b9f51e3f.ngrok.io'
+BASE_URL = 'http://ba4bb30c.ngrok.io'
+BASE_HREF = "/"
+
 
 YELLOWANT_OAUTH_URL = "https://www.yellowant.com/api/oauth2/authorize/"
 YELLOWANT_CLIENT_ID = "DXMu0IhAngKpcqoieGxjzPQEr5FZLKnMODMDj7Rx"
 YELLOWANT_CLIENT_SECRET = "Z1pTXQvSUOrWjMB0qhkpe6Z6CMKSkqKcORQaf6kp01wEtRROAA9qASwkeYBOA83fEOGrmtAOLFEa5AOKvEJL645Ud0q1w3iCSwEd7e5tlj2OIfgguwCEsReSjm3IK12O"
 YELLOWANT_VERIFICATION_TOKEN = "9fINDatAr6YL5wX9OvybcLnxQRYoFhRUl2nl6vKE3mcJO302vSvv16olV2vyywwerqTGea1blStxv9XR8nczzMqrEOXKveTGuWrnaMtyIKVUTfkJjwYCXVdutEkVJa92"
 YELLOWANT_REDIRECT_URL = BASE_URL + "/redirecturl/"
+YA_APP_ID = 357
 
-# VICTOROPS_USER_ID = 'adwaithcd'
-# VICTOROPS_API_ID = '90bf5258'
-# VICTOROPS_API_KEY = 'f5fd61c10d269273c06cff705a630a9b'
 VICTOROPS_INCIDENT_ALERT_URL = 'https://api.victorops.com/api-public/v1/alerts/'
 VICTOROPS_ALL_USERS = 'https://api.victorops.com/api-public/v1/user'
 VICTOROPS_CREATE_INCIDENT = "https://api.victorops.com/api-public/v1/incidents"
@@ -55,8 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'records',
-    'web',
+    'lib.records',
+    'lib.web',
 ]
 
 MIDDLEWARE = [
