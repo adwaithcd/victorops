@@ -29,7 +29,7 @@ requests-oauthlib==0.8.0
 six==1.11.0
 socketIO-client==0.7.2
 urllib3==1.22
-victorops-client==1.0.0
+git+https://github.com//.git
 websocket-client==0.47.0
 whitenoise==3.3.1
 wrapt==1.10.11
