@@ -97,7 +97,6 @@ def incident_triggered(request, webhook_id):
     """
         Webhook function to notify user about newly created incident
     """
-    print("in inci trig")
     # Extracting necessary data
     data = request.body
     data_string = data.decode('utf-8')
@@ -306,13 +305,10 @@ def webhook(request, hash_str=""):
     "entity_id": "${{STATE.ENTITY_ID}}","incident_number": "${{STATE.INCIDENT_NAME}}",
     "message":  "${{STATE.SERVICE}}" } --> This is the webhook format
     """
-    print("Inside webhook")
+    # print("Inside webhook")
     data = request.body
-    print(data)
     data_string = data.decode('utf-8')
-    print(data_string)
     data_json = json.loads(data_string)
-    print(data_json)
 
     if(data_json["alert_count"]) == '1':
         # print("in pipeline webhook")
