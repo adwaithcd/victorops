@@ -152,16 +152,16 @@ def incident_triggered(request, webhook_id):
     webhook_message.attach(attachment)
     # print(integration_id)
     webhook_message.data = {
-            "Display Name": name,
-            "Entity ID": entity_id,
-            "Incident Number": incident_number,
-        }
+        "Display Name": name,
+        "Entity ID": entity_id,
+        "Incident Number": incident_number,
+    }
 
     # Creating yellowant object
     yellowant_user_integration_object = YellowAnt(access_token=access_token)
 
     # Sending webhook message to user
-    send_message = yellowant_user_integration_object.create_webhook_message(
+    yellowant_user_integration_object.create_webhook_message(
         requester_application=integration_id,
         webhook_name="new_incident", **webhook_message.get_dict())
 
@@ -235,7 +235,7 @@ def incident_acknowledge(request, webhook_id):
     yellowant_user_integration_object = YellowAnt(access_token=access_token)
 
     # Sending webhook message to user
-    send_message = yellowant_user_integration_object.create_webhook_message(
+    yellowant_user_integration_object.create_webhook_message(
         requester_application=integration_id,
         webhook_name="new_incident_acknowledged", **webhook_message.get_dict())
 
@@ -290,7 +290,7 @@ def incident_resolved(request, webhook_id):
     yellowant_user_integration_object = YellowAnt(access_token=access_token)
 
     # Sending webhook message to user
-    send_message = yellowant_user_integration_object.create_webhook_message(
+    yellowant_user_integration_object.create_webhook_message(
         requester_application=integration_id,
         webhook_name="new_incident_resolved", **webhook_message.get_dict())
 
@@ -301,7 +301,10 @@ def incident_resolved(request, webhook_id):
 @require_POST
 def webhook(request, hash_str=""):
     """
-    {" display_name":"${{ALERT.entity_display_name}}","message_type":"${{ALERT.message_type}}","alert_count": "${{STATE.ALERT_COUNT}}","alert_phase": "${{STATE.CURRENT_ALERT_PHASE}}","entity_id": "${{STATE.ENTITY_ID}}","incident_number": "${{STATE.INCIDENT_NAME}}","message":  "${{STATE.SERVICE}}" }
+    {" display_name":"${{ALERT.entity_display_name}}","message_type":"${{ALERT.message_type}}",
+    "alert_count": "${{STATE.ALERT_COUNT}}","alert_phase": "${{STATE.CURRENT_ALERT_PHASE}}",
+    "entity_id": "${{STATE.ENTITY_ID}}","incident_number": "${{STATE.INCIDENT_NAME}}",
+    "message":  "${{STATE.SERVICE}}" } --> This is the webhook format
     """
     print("Inside webhook")
     data = request.body
@@ -325,6 +328,7 @@ def webhook(request, hash_str=""):
 
     return HttpResponse("OK", status=200)
 
+
 @csrf_exempt
 def yellowantapi(request):
     """
@@ -347,17 +351,8 @@ def yellowantapi(request):
             # Processing command in some class Command and sending a Message Object
             # Add_user and create_incident have flags to identify the status of the operation
             # and send webhook only if the operation is successful
-            if function_name == 'add_user' or function_name == 'create_incident':
-                message, flag = CommandCentre(data["user"], service_application, function_name, args).parse()
-            else:
-                message = CommandCentre(data["user"], service_application, function_name, args).parse()
 
-            # Appropriate function calls for corresponding webhook functions
-            if function_name == 'create_incident' and flag == 1:
-                add_new_incident(request)
-            if function_name == 'add_user' and flag == 1:
-                add_new_user(request)
-            # Returning message response
+            message = CommandCentre(data["user"], service_application, function_name, args).parse()
             return HttpResponse(message)
         else:
             # Handling incorrect verification token

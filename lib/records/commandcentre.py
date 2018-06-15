@@ -366,8 +366,7 @@ class CommandCentre(object):
             attachment = MessageAttachmentsClass()
             attachment.text = "User not found!"
             message.attach(attachment)
-            flag = 0
-            return message.to_json(), flag
+            return message.to_json()
         else:
             body = {
                 "summary": args['Incident-Summary'],
@@ -404,8 +403,7 @@ class CommandCentre(object):
             attachment.attach_field(field3)
 
             message.attach(attachment)
-            flag = 1
-            return message.to_json(), flag
+            return message.to_json()
 
     def add_user(self, args):
         """
@@ -429,20 +427,17 @@ class CommandCentre(object):
             attachment = MessageAttachmentsClass()
             attachment.text = "The email is already registered"
             message.attach(attachment)
-            flag = 0
-            return message.to_json(), flag
+            return message.to_json()
         elif re.search(r'is unavailable', r_text, re.M | re.I):
             attachment = MessageAttachmentsClass()
             attachment.text = "Username " + str(args['UserName']) + " is not available"
             message.attach(attachment)
-            flag = 0
-            return message.to_json(), flag
+            return message.to_json()
         else:
             attachment = MessageAttachmentsClass()
             attachment.text = "User added"
             message.attach(attachment)
-            flag = 1
-            return message.to_json(), flag
+            return message.to_json()
 
     def ack_incidents(self, args):
         """

@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d30f1c3-2c49-4a19-9ca6-8496c6c3fdae" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/lib/records/commandcentre.py" afterPath="$PROJECT_DIR$/lib/records/commandcentre.py" />
       <change beforePath="$PROJECT_DIR$/lib/records/views.py" afterPath="$PROJECT_DIR$/lib/records/views.py" />
-      <change beforePath="$PROJECT_DIR$/victoropsapp/settings.py" afterPath="$PROJECT_DIR$/victoropsapp/settings.py" />
-      <change beforePath="$PROJECT_DIR$/victoropsapp/urls.py" afterPath="$PROJECT_DIR$/victoropsapp/urls.py" />
-      <change beforePath="$PROJECT_DIR$/victoropsapp/urls_relative.py" afterPath="$PROJECT_DIR$/victoropsapp/urls_relative.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,7 +24,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/records/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
@@ -39,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/records/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1923">
-              <caret line="276" column="9" lean-forward="true" selection-start-line="276" selection-start-column="9" selection-end-line="276" selection-end-column="9" />
+            <state relative-caret-position="33">
+              <caret line="163" column="4" lean-forward="false" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="4" />
               <folding>
                 <element signature="e#69#80#0" expanded="true" />
               </folding>
@@ -54,8 +51,8 @@
       <file leaf-file-name="commandcentre.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/records/commandcentre.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7668">
-              <caret line="484" column="50" lean-forward="false" selection-start-line="484" selection-start-column="50" selection-end-line="484" selection-end-column="50" />
+            <state relative-caret-position="-1547">
+              <caret line="439" column="0" lean-forward="false" selection-start-line="439" selection-start-column="0" selection-end-line="439" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -188,7 +185,6 @@
         <option value="$PROJECT_DIR$/lib/__init__.py" />
         <option value="$PROJECT_DIR$/lib/records/records/models.py" />
         <option value="$PROJECT_DIR$/lib/records/records/views.py" />
-        <option value="$PROJECT_DIR$/lib/records/commandcentre.py" />
         <option value="$PROJECT_DIR$/lib/records/models.py" />
         <option value="$PROJECT_DIR$/lib/web/templates/home.html" />
         <option value="$PROJECT_DIR$/lib/web/views.py" />
@@ -196,6 +192,7 @@
         <option value="$PROJECT_DIR$/victoropsapp/urls_relative.py" />
         <option value="$PROJECT_DIR$/victoropsapp/urls.py" />
         <option value="$PROJECT_DIR$/victoropsapp/settings.py" />
+        <option value="$PROJECT_DIR$/lib/records/commandcentre.py" />
         <option value="$PROJECT_DIR$/lib/records/views.py" />
       </list>
     </option>
@@ -373,7 +370,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="56" y="-11" width="1311" height="780" extended-state="6" />
+    <frame x="57" y="-4" width="1309" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24727838" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -579,30 +576,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/records/commandcentre.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7668">
-          <caret line="484" column="50" lean-forward="false" selection-start-line="484" selection-start-column="50" selection-end-line="484" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/records/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1923">
-          <caret line="276" column="9" lean-forward="true" selection-start-line="276" selection-start-column="9" selection-end-line="276" selection-end-column="9" />
-          <folding>
-            <element signature="e#69#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/records/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="28" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
           <folding>
             <element signature="e#53#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/records/commandcentre.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1547">
+          <caret line="439" column="0" lean-forward="false" selection-start-line="439" selection-start-column="0" selection-end-line="439" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/records/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="163" column="4" lean-forward="false" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="4" />
+          <folding>
+            <element signature="e#69#80#0" expanded="true" />
           </folding>
         </state>
       </provider>
