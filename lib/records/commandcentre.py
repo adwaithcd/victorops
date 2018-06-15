@@ -6,14 +6,11 @@
 """
 from __future__ import print_function
 import json
-from pprint import pprint
 import re
 import requests
 # from yellowant import YellowAnt
 from yellowant.messageformat import MessageClass, MessageAttachmentsClass, AttachmentFieldsClass
 from django.conf import settings
-import victorops_client
-from victorops_client.rest import ApiException
 from .models import VictorOpsUserToken, YellowUserToken
 
 
@@ -131,54 +128,45 @@ class CommandCentre(object):
             This functions returns the list of the currently open,
              acknowledged and recently resolved incidents.
         """
-        # print("All incidents")
-        # The request is sent by creating an instance of the victorops_client API and by sending
-        # the api key and id to the incidents_get function
-        api_instance = victorops_client.IncidentsApi()
-        x_vo_api_id = self.victor_ops_api_id  # str | Your API ID
-        x_vo_api_key = self.victor_ops_api_key  # str | Your API Key
-
-        try:
-            # Get current incident information
-            api_response = api_instance.incidents_get(x_vo_api_id, x_vo_api_key)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling IncidentsApi->incidents_get: %s\n" % e)
-        response_json = api_response.incidents
+        url = settings.VICTOROPS_CREATE_LIST_INCIDENT
+        response = requests.get(url, headers=self.headers)
+        response_json = response.json()
+        print(response_json)
+        data = response_json["incidents"]
 
         # response_json = response_json.json()
         message = MessageClass()
         message.message_text = "All incidents : "
 
         # Check if there are incidents present
-        if not bool(api_response):
+        if not bool(response_json):
             attachment = MessageAttachmentsClass()
             attachment.text = "No incidents"
             message.attach(attachment)
             return message.to_json()
         else:
-            for details in response_json:
+            for details in data:
                 attachment = MessageAttachmentsClass()
 
                 field2 = AttachmentFieldsClass()
                 field2.title = "Incident Number"
-                field2.value = details.incident_number
+                field2.value = details["incidentNumber"]
                 # print(field2.value)
                 attachment.attach_field(field2)
 
                 field3 = AttachmentFieldsClass()
                 field3.title = "Current Phase"
-                field3.value = details.current_phase
+                field3.value = details["currentPhase"]
                 attachment.attach_field(field3)
 
                 field4 = AttachmentFieldsClass()
                 field4.title = "Entity ID"
-                field4.value = details.entity_id
+                field4.value = details["entityId"]
                 attachment.attach_field(field4)
 
                 field5 = AttachmentFieldsClass()
                 field5.title = "VO_UUID"
-                field5.value = details.last_alert_id
+                field5.value = details["lastAlertId"]
                 attachment.attach_field(field5)
 
                 message.attach(attachment)
@@ -190,43 +178,28 @@ class CommandCentre(object):
             This function is used to return an incident given the incident number.
             This is a supporting function for create_incident function
         """
-        api_instance = victorops_client.IncidentsApi()
-        x_vo_api_id = self.victor_ops_api_id  # VictorOps API ID
-        x_vo_api_key = self.victor_ops_api_key  # VictorOps API Key
+        url = settings.VICTOROPS_CREATE_LIST_INCIDENT
+        response = requests.get(url, headers=self.headers)
+        response_json = response.json()
+        print(response_json)
+        data = response_json["incidents"]
 
-        try:
-            # Get current incident information
-            api_response = api_instance.incidents_get(x_vo_api_id, x_vo_api_key)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling IncidentsApi->incidents_get: %s\n" % e)
-        response_json = api_response.incidents
-        for response in response_json:
-            if response.incident_number == number:
-                return response.entity_id, response.last_alert_id
+        for details in data:
+            if details["incidentNumber"] == number:
+                return details["entityId"], details["lastAlertId"]
 
     def get_user(self, args):
         """
             This function is used to get the user details given the victorops user id
         """
-        # create an instance of the API class
-        api_instance = victorops_client.UsersApi()
-        x_vo_api_id = self.victor_ops_api_id  # VictorOps API ID
-        x_vo_api_key = self.victor_ops_api_key  # VictorOps API Key
-        # print(args)
         user = args['User-ID']  # VictorOps user ID
-
-        api_response = []
-        try:
-            # Retrieve information for a user
-            api_response = api_instance.user_user_get(x_vo_api_id, x_vo_api_key, user)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling UsersApi->user_user_get: %s\n" % e)
+        url = settings.VICTOROPS_GET_USER + str(user)
+        response = requests.get(url, headers=self.headers)
+        response_json = response.json()
         message = MessageClass()
         message.message_text = "User Details"
 
-        if bool(api_response) == False:
+        if bool(response_json) == False:
             attachment = MessageAttachmentsClass()
             attachment.text = "No user found!"
             message.attach(attachment)
@@ -236,27 +209,27 @@ class CommandCentre(object):
 
             field1 = AttachmentFieldsClass()
             field1.title = "Username"
-            field1.value = api_response['username']
+            field1.value = response_json['username']
             attachment.attach_field(field1)
 
             field2 = AttachmentFieldsClass()
             field2.title = "Name"
-            field2.value = str(api_response['firstName']) + " " + str(api_response['lastName'])
+            field2.value = str(response_json['firstName']) + " " + str(response_json['lastName'])
             attachment.attach_field(field2)
 
             field3 = AttachmentFieldsClass()
             field3.title = "Email"
-            field3.value = api_response['email']
+            field3.value = response_json['email']
             attachment.attach_field(field3)
 
             field4 = AttachmentFieldsClass()
             field4.title = "Password Last Updated"
-            field4.value = api_response['passwordLastUpdated']
+            field4.value = response_json['passwordLastUpdated']
             attachment.attach_field(field4)
 
             field5 = AttachmentFieldsClass()
             field5.title = "Verified"
-            field5.value = api_response['verified']
+            field5.value = response_json['verified']
             attachment.attach_field(field5)
 
             message.attach(attachment)
@@ -268,20 +241,11 @@ class CommandCentre(object):
             This function is used to check if the user exists.
             This is a supporting function for create_incident function
         """
+        url = settings.VICTOROPS_GET_USER + str(user)
+        response = requests.get(url, headers=self.headers)
+        response_json = response.json()
 
-        # create an instance of the API class
-        api_instance = victorops_client.UsersApi()
-        x_vo_api_id = self.victor_ops_api_id  # str | Your API ID
-        x_vo_api_key = self.victor_ops_api_key  # str | Your API Key
-        api_response = []
-        try:
-            # Retrieve information for a user
-            api_response = api_instance.user_user_get(x_vo_api_id, x_vo_api_key, user)
-            pprint(api_response)
-        except ApiException as e:
-            print("Exception when calling UsersApi->user_user_get: %s\n" % e)
-
-        if bool(api_response) == False:
+        if bool(response_json) == False:
             return 0
         else:
             return 1
@@ -359,7 +323,7 @@ class CommandCentre(object):
             A flag is also returned which denotes the success or the failure of incident creation
             which is used to provide a webhook.
         """
-        url = settings.VICTOROPS_CREATE_INCIDENT
+        url = settings.VICTOROPS_CREATE_LIST_INCIDENT
         # Check if the user to be paged exists
         if self.test_get_user(args['Send-To']) == 0:
             message = MessageClass()

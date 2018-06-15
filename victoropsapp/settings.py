@@ -57,8 +57,9 @@ YELLOWANT_REDIRECT_URL = BASE_URL + "redirecturl/"
 
 VICTOROPS_INCIDENT_ALERT_URL = 'https://api.victorops.com/api-public/v1/alerts/'
 VICTOROPS_ALL_USERS = 'https://api.victorops.com/api-public/v1/user'
-VICTOROPS_CREATE_INCIDENT = "https://api.victorops.com/api-public/v1/incidents"
+VICTOROPS_CREATE_LIST_INCIDENT = "https://api.victorops.com/api-public/v1/incidents"
 VICTOROPS_ADD_USER = "https://api.victorops.com/api-public/v1/user"
+VICTOROPS_GET_USER = "https://api.victorops.com/api-public/v1/user/"
 VICTOROPS_ACK_INCIDENTS = "https://api.victorops.com/api-public/v1/incidents/ack"
 VICTOROPS_RESOLVE_INCIDENTS = 'https://api.victorops.com/api-public/v1/incidents/resolve'
 VICTOROPS_ACK_ALL_INCIDENTS = 'https://api.victorops.com/api-public/v1/incidents/byUser/ack'
