@@ -1,0 +1,304 @@
+api_url: http://dd272eb3.ngrok.io/yellowant-api/
+creator_email: adwaithgowda@gmail.com
+documentation_url: https://www.yellowant.com/docs
+functions:
+  ack_all_incidents:
+    function_type: 1
+    input_args:
+      Acknowledgement-Message:
+        arg_type: 14
+        description: The acknowledgement message.
+        example: This is a sample acknowledgement
+        name: Acknowledgement-Message
+        required: 1
+    invoke_name: ack_all_incidents
+    is_active: 1
+    max_retries: 0
+    name: Acknowledge all incidents
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Acknowledge all incidents for which the user was paged.
+    user_rate_limit: 0.0
+  ack_incidents:
+    function_type: 1
+    input_args:
+      Acknowledgement-Message:
+        arg_type: 14
+        description: Acknowledgement message for the incident
+        example: This is a sample acknowledgement.
+        name: Acknowledgement-Message
+        required: 1
+      Incident-Numbers:
+        arg_type: 19
+        description: The incident or the list of incidents the user wants to acknowledge
+          for.
+        example: 25,36,49
+        name: Incident-Numbers
+        required: 1
+    invoke_name: ack_incidents
+    is_active: 1
+    max_retries: 0
+    name: Acknowledge an incident or a list of incidents
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Acknowledge an incident or a list of incidents. The incident(s)
+      must be currently open.
+    user_rate_limit: 0.0
+  add_user:
+    function_type: 1
+    input_args:
+      Email:
+        arg_type: 14
+        description: The email id of the user
+        example: johndoe@xyz.com
+        name: Email
+        required: 1
+      Expiration-Hours:
+        arg_type: 1
+        description: The duration for which the user is active
+        example: '24'
+        name: Expiration-Hours
+        required: 1
+      First-Name:
+        arg_type: 14
+        description: First Name of the user
+        example: John
+        name: First-Name
+        required: 1
+      Last-Name:
+        arg_type: 14
+        description: The last name of the user
+        example: Doe
+        name: Last-Name
+        required: 1
+      UserName:
+        arg_type: 14
+        description: A unique username for the user
+        example: JohnDoe
+        name: UserName
+        required: 1
+    invoke_name: add_user
+    is_active: 1
+    max_retries: 0
+    name: Add user
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Add a new user
+    user_rate_limit: 0.0
+  create_incident:
+    function_type: 1
+    input_args:
+      Incident-Body:
+        arg_type: 14
+        description: The incident description
+        example: This is  a test description
+        name: Incident-Body
+        required: 1
+      Incident-Summary:
+        arg_type: 14
+        description: The summary of the incident
+        example: This is the summary
+        name: Incident-Summary
+        required: 1
+      Send-To:
+        arg_type: 14
+        description: The user to be paged
+        example: johndoe
+        name: Send-To
+        required: 0
+    invoke_name: create_incident
+    is_active: 1
+    max_retries: 0
+    name: Create an Incident
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Create a new Incident
+    user_rate_limit: 0.0
+  get_incident:
+    function_type: 1
+    input_args:
+      Incident-UUID:
+        arg_type: 14
+        description: The ID of the required incident
+        example: 0f626395-a750-49d4-8383-e197755e144a
+        name: Incident-UUID
+        required: 1
+    invoke_name: get_incident
+    is_active: 1
+    max_retries: 0
+    name: Get incident details
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Gets information related to a particular incident
+    user_rate_limit: 0.0
+  get_user:
+    function_type: 1
+    input_args:
+      User-ID:
+        arg_type: 14
+        description: The unique ID of the user
+        example: JohnDoe
+        name: User-ID
+        required: 1
+    invoke_name: get_user
+    is_active: 1
+    max_retries: 0
+    name: Retrieve information for a user
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Get the details of a particular user
+    user_rate_limit: 0.0
+  list_incidents:
+    function_type: 1
+    input_args: {}
+    invoke_name: list_incidents
+    is_active: 1
+    max_retries: 0
+    name: List all the incidents
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Get a list of the currently open, acknowledged and recently
+      resolved incidents.
+    user_rate_limit: 0.0
+  list_users:
+    function_type: 1
+    input_args: {}
+    invoke_name: list_users
+    is_active: 1
+    max_retries: 0
+    name: List all the users
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: List all the users
+    user_rate_limit: 0.0
+  new_incident:
+    function_type: 2
+    input_args: {}
+    invoke_name: new_incident
+    is_active: 1
+    max_retries: 0
+    name: New Incident Notification
+    output_keys:
+      _keys:
+        Display Name: '__unicode:  Display  name'
+        Entity ID: '__unicode:  Entity  i d'
+        Incident Number: '__unicode:  Incident  number'
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: New Incident Notification
+    user_rate_limit: 0.0
+  new_incident_acknowledged:
+    function_type: 2
+    input_args: {}
+    invoke_name: new_incident_acknowledged
+    is_active: 1
+    max_retries: 0
+    name: New Incident Acknowledged notification
+    output_keys:
+      _keys:
+        Display Name: '__unicode:  Display  name'
+        Entity ID: '__unicode:  Entity  i d'
+        Incident Number: '__unicode:  Incident  number'
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: New Incident Acknowledged notification
+    user_rate_limit: 0.0
+  new_incident_resolved:
+    function_type: 2
+    input_args: {}
+    invoke_name: new_incident_resolved
+    is_active: 1
+    max_retries: 0
+    name: New Incident Resolved Notification
+    output_keys:
+      _keys:
+        Display Name: '__unicode:  Display  name'
+        Entity ID: '__unicode:  Entity  i d'
+        Incident Number: '__unicode:  Incident  number'
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: New Incident Resolved Notification
+    user_rate_limit: 0.0
+  pick_list_users:
+    function_type: 1
+    input_args: {}
+    invoke_name: pick_list_users
+    is_active: 0
+    max_retries: 0
+    name: PickList Users
+    output_keys:
+      _keys:
+        users: '[users]:     List of Users'
+      users:
+        username: '__unicode:     Users username'
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Gets the list of users for pick list
+    user_rate_limit: 0.0
+  resolve_all_incidents:
+    function_type: 1
+    input_args:
+      Resolution-Message:
+        arg_type: 14
+        description: The resolution message
+        example: This is a  sample  message
+        name: Resolution-Message
+        required: 1
+    invoke_name: resolve_all_incidents
+    is_active: 1
+    max_retries: 0
+    name: Resolve all incidents
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Resolve all incidents for which the user was paged for.
+    user_rate_limit: 0.0
+  resolve_incidents:
+    function_type: 1
+    input_args:
+      Incident-Numbers:
+        arg_type: 19
+        description: The incident or the list of incidents the user wants to acknowledge
+          for.
+        example: 25,36,49
+        name: Incident-Numbers
+        required: 1
+      Resolution-Message:
+        arg_type: 14
+        description: The acknowledgement message.
+        example: This is a sample message.
+        name: Resolution-Message
+        required: 1
+    invoke_name: resolve_incidents
+    is_active: 1
+    max_retries: 0
+    name: Resolve Incidents
+    output_keys: {}
+    privacy_mode: 0
+    rate_limited: 0
+    short_description: Resolve an incident or a list of incidents. The incident(s)
+      must be currently open.
+    user_rate_limit: 0.0
+icon_url: https://victorops.com/assets/img/branding/logo-yellow-vertical.png
+install_page_url: https://www.yellowant.com/install
+invoke_name: victorops
+is_active: 1
+is_production_or_sandbox: 0
+long_description: Incident management tool
+name: VictorOps
+privacy_policy_url: https://www.yellowant.com/privacy
+rate_limit: 0.0
+rate_limited: 0
+redirect_uris: http://dd272eb3.ngrok.io/redirecturl/
+short_description: Incident management tool
+user_rate_limit: 0.0
+visibility_scope: 0
+website: https://www.yellowant.com/install
