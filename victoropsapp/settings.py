@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-BASE_URL = 'http://ba4bb30c.ngrok.io'
+BASE_URL = 'http://dd272eb3.ngrok.io'
 BASE_HREF = "/"
 
 
@@ -49,14 +49,14 @@ VICTOROPS_RESOLVE_ALL_INCIDENTS = 'https://api.victorops.com/api-public/v1/incid
 # Application definition
 
 INSTALLED_APPS = [
+    'lib.web',
+    'lib.records',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lib.records',
-    'lib.web',
 ]
 
 MIDDLEWARE = [

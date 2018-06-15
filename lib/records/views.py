@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
 from yellowant import YellowAnt
 from yellowant.messageformat import MessageClass, MessageAttachmentsClass, \
     MessageButtonsClass, AttachmentFieldsClass
@@ -84,37 +85,185 @@ def yellowantRedirecturl(request):
     AppRedirectState.objects.create(user_integration=ut, state=state)
     VictorOpsUserToken.objects.create(user_integration=ut, victorops_user_id="",
                                       victorops_api_id="", victorops_api_key="")
-
+    web_url = settings.BASE_URL + "/webhook/" + hash_str + "/"
+    print(web_url)
     # Redirecting to home page
     return HttpResponseRedirect("/")
 
 
 @csrf_exempt
-def add_new_incident(request):
+def incident_triggered(request, webhook_id):
+
     """
         Webhook function to notify user about newly created incident
     """
-
+    print("in inci trig")
     # Extracting necessary data
-    data = json.loads(request.POST['data'])
-    args = data["args"]
-    service_application = data["application"]
+    data = request.body
+    data_string = data.decode('utf-8')
+    data_json = json.loads(data_string)
 
-    # Fetching integration_id form database
-    integration_id = (YellowUserToken.objects.get\
-        (yellowant_integration_id=service_application)).yellowant_integration_id
-
-    # Fetching access_token from database
-    access_token = (YellowUserToken.objects.get\
-        (yellowant_integration_id=service_application)).yellowant_token
-
+    name = data_json['display_name']
+    entity_id = data_json['entity_id']
+    incident_number = data_json['incident_number']
+    # Fetching yellowant object
+    yellow_obj = YellowUserToken.objects.get(webhook_id=webhook_id)
+    access_token = yellow_obj.yellowant_token
+    integration_id = yellow_obj.yellowant_integration_id
     service_application = str(integration_id)
 
     # Creating message object for webhook message
     webhook_message = MessageClass()
-    webhook_message.message_text = "New incident added"
+    webhook_message.message_text = "Incident Triggered\n The entity ID : " + str(entity_id)\
+                                   + "\nThe Incident Number : " + str(incident_number) +\
+                                   "\n Incident message : " + str(name)
     attachment = MessageAttachmentsClass()
-    attachment.title = "Get incident details"
+    attachment.title = "Incident Operations"
+
+    # button_get_incidents = MessageButtonsClass()
+    # button_get_incidents.name = "1"
+    # button_get_incidents.value = "1"
+    # button_get_incidents.text = "Get all incidents"
+    # button_get_incidents.command = {
+    #     "service_application": service_application,
+    #     "function_name": 'list_incidents',
+    #     "data": {
+    #         'data': "test",
+    #     }
+    # }
+    #
+    # attachment.attach_button(button_get_incidents)
+
+    button_ack_incidents = MessageButtonsClass()
+    button_ack_incidents.name = "2"
+    button_ack_incidents.value = "2"
+    button_ack_incidents.text = "Acknowledge the current incident"
+    button_ack_incidents.command = {
+        "service_application": service_application,
+        "function_name": 'ack_incidents',
+        "data": {
+            "Incident-Numbers": incident_number,
+        },
+        "inputs": ["Acknowledgement-Message"]
+    }
+
+    attachment.attach_button(button_ack_incidents)
+
+    webhook_message.attach(attachment)
+    # print(integration_id)
+    webhook_message.data = {
+            "Display Name": name,
+            "Entity ID": entity_id,
+            "Incident Number": incident_number,
+        }
+
+    # Creating yellowant object
+    yellowant_user_integration_object = YellowAnt(access_token=access_token)
+
+    # Sending webhook message to user
+    send_message = yellowant_user_integration_object.create_webhook_message(
+        requester_application=integration_id,
+        webhook_name="new_incident", **webhook_message.get_dict())
+
+    return HttpResponse("OK", status=200)
+
+
+@csrf_exempt
+def incident_acknowledge(request, webhook_id):
+    """
+        Webhook function to notify user about newly added user
+    """
+
+    data = request.body
+    data_string = data.decode('utf-8')
+    data_json = json.loads(data_string)
+
+    name = data_json['display_name']
+    entity_id = data_json['entity_id']
+    incident_number = data_json['incident_number']
+    # Fetching yellowant object
+    yellow_obj = YellowUserToken.objects.get(webhook_id=webhook_id)
+    access_token = yellow_obj.yellowant_token
+    integration_id = yellow_obj.yellowant_integration_id
+    service_application = str(integration_id)
+
+    # Creating message object for webhook message
+    webhook_message = MessageClass()
+    webhook_message.message_text = "Incident Acknowledged\n The entity ID : " + str(entity_id) \
+                                   + "\nThe Incident Number : " + str(incident_number)
+    attachment = MessageAttachmentsClass()
+    attachment.title = "Incident Operations"
+
+    # button_get_incidents = MessageButtonsClass()
+    # button_get_incidents.name = "1"
+    # button_get_incidents.value = "1"
+    # button_get_incidents.text = "Get all incidents"
+    # button_get_incidents.command = {
+    #     "service_application": service_application,
+    #     "function_name": 'list_incidents',
+    #     "data": {
+    #         'data': "test",
+    #     }
+    # }
+    #
+    # attachment.attach_button(button_get_incidents)
+
+    button_ack_incidents = MessageButtonsClass()
+    button_ack_incidents.name = "2"
+    button_ack_incidents.value = "2"
+    button_ack_incidents.text = "Resolve the current incident"
+    button_ack_incidents.command = {
+        "service_application": service_application,
+        "function_name": 'resolve_incidents',
+        "data": {
+            "Incident-Numbers": incident_number,
+        },
+        "inputs": ["Resolution-Message"]
+    }
+
+    attachment.attach_button(button_ack_incidents)
+
+    webhook_message.attach(attachment)
+    # print(integration_id)
+    webhook_message.data = {
+        "Display Name": name,
+        "Entity ID": entity_id,
+        "Incident Number": incident_number,
+    }
+
+    # Creating yellowant object
+    yellowant_user_integration_object = YellowAnt(access_token=access_token)
+
+    # Sending webhook message to user
+    send_message = yellowant_user_integration_object.create_webhook_message(
+        requester_application=integration_id,
+        webhook_name="new_incident_acknowledged", **webhook_message.get_dict())
+
+    return HttpResponse("OK", status=200)
+
+
+@csrf_exempt
+def incident_resolved(request, webhook_id):
+    #
+    data = request.body
+    data_string = data.decode('utf-8')
+    data_json = json.loads(data_string)
+
+    name = data_json['display_name']
+    entity_id = data_json['entity_id']
+    incident_number = data_json['incident_number']
+    # Fetching yellowant object
+    yellow_obj = YellowUserToken.objects.get(webhook_id=webhook_id)
+    access_token = yellow_obj.yellowant_token
+    integration_id = yellow_obj.yellowant_integration_id
+    service_application = str(integration_id)
+
+    # Creating message object for webhook message
+    webhook_message = MessageClass()
+    webhook_message.message_text = "Incident Resolved\n The entity ID : " + str(entity_id) \
+                                   + "\nThe Incident Number : " + str(incident_number)
+    attachment = MessageAttachmentsClass()
+    attachment.title = "Incident Operations"
 
     button_get_incidents = MessageButtonsClass()
     button_get_incidents.name = "1"
@@ -131,6 +280,11 @@ def add_new_incident(request):
     attachment.attach_button(button_get_incidents)
     webhook_message.attach(attachment)
     # print(integration_id)
+    webhook_message.data = {
+        "Display Name": name,
+        "Entity ID": entity_id,
+        "Incident Number": incident_number,
+    }
 
     # Creating yellowant object
     yellowant_user_integration_object = YellowAnt(access_token=access_token)
@@ -138,62 +292,38 @@ def add_new_incident(request):
     # Sending webhook message to user
     send_message = yellowant_user_integration_object.create_webhook_message(
         requester_application=integration_id,
-        webhook_name="new_incident", **webhook_message.get_dict())
+        webhook_name="new_incident_resolved", **webhook_message.get_dict())
 
     return HttpResponse("OK", status=200)
 
 
 @csrf_exempt
-def add_new_user(request):
+@require_POST
+def webhook(request, hash_str=""):
     """
-        Webhook function to notify user about newly added user
+    {" display_name":"${{ALERT.entity_display_name}}","message_type":"${{ALERT.message_type}}","alert_count": "${{STATE.ALERT_COUNT}}","alert_phase": "${{STATE.CURRENT_ALERT_PHASE}}","entity_id": "${{STATE.ENTITY_ID}}","incident_number": "${{STATE.INCIDENT_NAME}}","message":  "${{STATE.SERVICE}}" }
     """
+    print("Inside webhook")
+    data = request.body
+    print(data)
+    data_string = data.decode('utf-8')
+    print(data_string)
+    data_json = json.loads(data_string)
+    print(data_json)
 
-    # Extracting necessary data
-    data = json.loads(request.POST['data'])
-    args = data["args"]
-    service_application = data["application"]
+    if(data_json["alert_count"]) == '1':
+        # print("in pipeline webhook")
+        incident_triggered(request, hash_str)
 
-    # Getting integration_id from database
-    integration_id = (YellowUserToken.objects.get\
-        (yellowant_integration_id=service_application)).yellowant_integration_id
+    elif(data_json["alert_count"]) == '2':
+        # print("in user webhook")
+        incident_acknowledge(request, hash_str)
 
-    # Getting access_token from database
-    access_token = (YellowUserToken.objects.get\
-        (yellowant_integration_id=service_application)).yellowant_token
+    elif(data_json["alert_count"]) == '3':
+        # print("in deal webhook")
+        incident_resolved(request, hash_str)
 
-    service_application = str(integration_id)
-
-    # Creating message object for webhook message
-    webhook_message = MessageClass()
-    webhook_message.message_text = "New user added"
-    attachment = MessageAttachmentsClass()
-
-    button_get_incidents = MessageButtonsClass()
-    button_get_incidents.name = "1"
-    button_get_incidents.value = "1"
-    button_get_incidents.text = "Get all users"
-    button_get_incidents.command = {
-        "service_application": service_application,
-        "function_name": 'list_users',
-        "data": {
-            'data': "test",
-        }
-    }
-
-    attachment.attach_button(button_get_incidents)
-    webhook_message.attach(attachment)
-    # print(integration_id)
-
-    # Creating yellowant object
-    yellowant_user_integration_object = YellowAnt(access_token=access_token)
-
-    # Sending webhook message to user
-    send_message = yellowant_user_integration_object.create_webhook_message(
-        requester_application=integration_id,
-        webhook_name="new_user", **webhook_message.get_dict())
     return HttpResponse("OK", status=200)
-
 
 @csrf_exempt
 def yellowantapi(request):
