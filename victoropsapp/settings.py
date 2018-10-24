@@ -39,7 +39,7 @@ SITE_PROTOCOL = "http://"
 
 DEV_ENV = os.environ.get('ENV', 'DEV')
 if DEV_ENV == "DEV":
-    BASE_URL = "https://dd272eb3.ngrok.io"
+    BASE_URL = "https://dd262eb3.ngrok.io"
     SITE_DOMAIN_URL = "ngrok.io"
 elif DEV_ENV == "HEROKU":
     BASE_URL = "https://{}.herokuapp.com/".format(app_name)
@@ -54,7 +54,7 @@ YELLOWANT_CLIENT_SECRET = str(data_json['client_secret'])
 YELLOWANT_VERIFICATION_TOKEN = str(data_json['verification_token'])
 YELLOWANT_REDIRECT_URL = BASE_URL + "redirecturl/"
 
-
+#victorops api urls
 VICTOROPS_INCIDENT_ALERT_URL = 'https://api.victorops.com/api-public/v1/alerts/'
 VICTOROPS_ALL_USERS = 'https://api.victorops.com/api-public/v1/user'
 VICTOROPS_CREATE_LIST_INCIDENT = "https://api.victorops.com/api-public/v1/incidents"
